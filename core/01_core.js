@@ -174,6 +174,7 @@
   }
 
   function opSync(opName, ...args) {
+    console.log(opName);
     return unwrapOpResult(ops[opName](opIds[opName], ...args));
   }
 

@@ -84,15 +84,6 @@ mod not_docs {
     }
   }
 
-  impl deno_websocket::WebSocketPermissions for Permissions {
-    fn check_net_url(
-      &mut self,
-      _url: &deno_core::url::Url,
-    ) -> Result<(), deno_core::error::AnyError> {
-      unreachable!("snapshotting!")
-    }
-  }
-
   impl deno_web::TimersPermission for Permissions {
     fn allow_hrtime(&mut self) -> bool {
       unreachable!("snapshotting!")
@@ -103,38 +94,6 @@ mod not_docs {
       _state: &deno_core::OpState,
       _api_name: &'static str,
     ) {
-      unreachable!("snapshotting!")
-    }
-  }
-
-  impl deno_ffi::FfiPermissions for Permissions {
-    fn check(
-      &mut self,
-      _path: Option<&Path>,
-    ) -> Result<(), deno_core::error::AnyError> {
-      unreachable!("snapshotting!")
-    }
-  }
-
-  impl deno_net::NetPermissions for Permissions {
-    fn check_net<T: AsRef<str>>(
-      &mut self,
-      _host: &(T, Option<u16>),
-    ) -> Result<(), deno_core::error::AnyError> {
-      unreachable!("snapshotting!")
-    }
-
-    fn check_read(
-      &mut self,
-      _p: &Path,
-    ) -> Result<(), deno_core::error::AnyError> {
-      unreachable!("snapshotting!")
-    }
-
-    fn check_write(
-      &mut self,
-      _p: &Path,
-    ) -> Result<(), deno_core::error::AnyError> {
       unreachable!("snapshotting!")
     }
   }
@@ -150,20 +109,7 @@ mod not_docs {
         Default::default(),
       ),
       deno_fetch::init::<Permissions>(Default::default()),
-      deno_websocket::init::<Permissions>("".to_owned(), None, None),
-      deno_webstorage::init(None),
       deno_crypto::init(None),
-      deno_webgpu::init(false),
-      deno_broadcast_channel::init(
-        deno_broadcast_channel::InMemoryBroadcastChannel::default(),
-        false, // No --unstable.
-      ),
-      deno_ffi::init::<Permissions>(false),
-      deno_net::init::<Permissions>(
-        None, false, // No --unstable.
-        None,
-      ),
-      deno_http::init(),
     ];
 
     let js_runtime = JsRuntime::new(RuntimeOptions {
